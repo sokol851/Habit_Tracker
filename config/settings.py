@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_spectacular',
     'django_celery_beat',
+    'multiselectfield',
 
     "rest_framework",
     "django_filters",
