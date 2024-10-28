@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
         "first_name",
         "last_name",
         "phone",
-        "telegram",
+        "id_user_telegram",
         "is_active",
     )
     list_filter = (
@@ -20,6 +20,6 @@ class UserAdmin(admin.ModelAdmin):
         "email",
         "first_name",
         "last_name",
-        "telegram",
+        "id_user_telegram",
         "phone",
     )

@@ -10,7 +10,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=150, default="Не указано", verbose_name="Имя", **NULLABLE)
     last_name = models.CharField(max_length=150, default="Не указано", verbose_name="Фамилия", **NULLABLE)
     phone = models.CharField(max_length=35, verbose_name="Телефон", **NULLABLE, default="Не указано")
-    telegram = models.CharField(max_length=150, default="Не указано", verbose_name="Telegram", **NULLABLE)
+    id_user_telegram = models.IntegerField(verbose_name='ID из Telegram', **NULLABLE)
     avatar = models.ImageField(upload_to="users/%Y", default="users/non_avatar.png", verbose_name="Аватар", **NULLABLE)
 
     USERNAME_FIELD = "email"

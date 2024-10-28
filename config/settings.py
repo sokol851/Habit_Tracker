@@ -167,6 +167,11 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
+
+TELEGRAM_URL = config('TELEGRAM_URL')
+TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
+
+
 # # Настройки почты
 # EMAIL_HOST = config('EMAIL_HOST')
 # EMAIL_PORT = config('EMAIL_PORT')
