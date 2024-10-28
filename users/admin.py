@@ -4,13 +4,13 @@ from users.models import User
 
 
 @admin.register(User)
-class CourseAdmin(admin.ModelAdmin):
+class UserAdmin(admin.ModelAdmin):
     list_display = (
         "email",
         "first_name",
         "last_name",
         "phone",
-        "telegram",
+        "id_user_telegram",
         "is_active",
     )
     list_filter = (
@@ -20,6 +20,6 @@ class CourseAdmin(admin.ModelAdmin):
         "email",
         "first_name",
         "last_name",
-        "telegram",
+        "id_user_telegram",
         "phone",
     )

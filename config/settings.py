@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_spectacular',
     'django_celery_beat',
+    'multiselectfield',
 
     "rest_framework",
     "django_filters",
@@ -165,6 +166,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(days=1),
     },
 }
+
+
+TELEGRAM_URL = config('TELEGRAM_URL')
+TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
+
 
 # # Настройки почты
 # EMAIL_HOST = config('EMAIL_HOST')
