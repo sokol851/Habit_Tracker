@@ -63,5 +63,6 @@ class RegularityValidator:
 
     def __call__(self, value):
         tmp_val = dict(value).get(self.field)
-        if len(tmp_val) < 1:
-            raise ValidationError("Нельзя выполнять привычку реже 1 раза в неделю!")
+        if tmp_val is not None:
+            if len(tmp_val) < 1:
+                raise ValidationError("Нельзя выполнять привычку реже 1 раза в неделю!")

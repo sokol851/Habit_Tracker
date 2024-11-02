@@ -88,6 +88,10 @@ DATABASES = {
     "default": {
         "ENGINE": config("BASE_ENGINE"),
         "NAME": BASE_DIR / config("BASE_NAME"),
+        "USER": BASE_DIR / config("USER"),
+        "HOST": BASE_DIR / config("HOST"),
+        "PORT": BASE_DIR / config("PORT"),
+        "PASSWORD": BASE_DIR / config("PASSWORD"),
     }
 }
 
@@ -140,7 +144,7 @@ AUTH_USER_MODEL = "users.User"
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
-    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
@@ -160,12 +164,13 @@ CELERY_BROKER_URL = config("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND")
 CELERY_TIMEZONE = config("CELERY_TIMEZONE")
 CELERY_TASK_TRACK_STARTED = config('CELERY_TASK_TRACK_STARTED') == "True"
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
-    'check_last_login': {
-        'task': 'lms.tasks.check_last_login',
-        'schedule': timedelta(days=1),
-    },
+    'send_habit': {
+        'task': 'habit_tracker.tasks.send_habit',  # Путь к задаче
+        'schedule': timedelta(minutes=1), }  # Расписание выполнения задачи (например, каждые 10 минут)
 }
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 
 TELEGRAM_URL = config('TELEGRAM_URL')
