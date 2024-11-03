@@ -16,7 +16,6 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG') == "True"
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -80,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -94,7 +91,6 @@ DATABASES = {
         "PASSWORD": BASE_DIR / config("PASSWORD"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -114,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -125,7 +120,6 @@ TIME_ZONE = "Europe/Moscow"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -168,14 +162,12 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     'send_habit': {
         'task': 'habit_tracker.tasks.send_habit',  # Путь к задаче
-        'schedule': timedelta(minutes=1), }  # Расписание выполнения задачи (например, каждые 10 минут)
+        'schedule': timedelta(seconds=15), }  # Расписание выполнения задачи (например, каждые 10 минут)
 }
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
-
 TELEGRAM_URL = config('TELEGRAM_URL')
 TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
-
 
 # # Настройки почты
 # EMAIL_HOST = config('EMAIL_HOST')
