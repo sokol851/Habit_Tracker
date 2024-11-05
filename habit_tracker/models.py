@@ -5,6 +5,8 @@ NULLABLE = {"blank": True, "null": True}
 
 
 class Habit(models.Model):
+    """ Модель привычек """
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Пользователь', **NULLABLE,
                              on_delete=models.CASCADE)
     place = models.CharField(max_length=100, verbose_name='Место', default='Везде')

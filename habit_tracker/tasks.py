@@ -10,6 +10,8 @@ from habit_tracker.services import send_telegram_message
 
 @shared_task
 def send_habit():
+    """ Отправка задачи в планировщик """
+
     zone = pytz.timezone(settings.TIME_ZONE)
     current_time = datetime.datetime.now(zone)
     current_time_less = current_time - datetime.timedelta(minutes=1)

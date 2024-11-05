@@ -6,6 +6,8 @@ from habit_tracker.validators import RewardValidator, PleasantActionValidator, T
 
 
 class HabitSerializer(serializers.ModelSerializer):
+    """ Сериализатор для модели привычек """
+
     class Meta:
         model = Habit
         fields = '__all__'

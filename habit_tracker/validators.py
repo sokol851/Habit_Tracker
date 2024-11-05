@@ -4,6 +4,8 @@ from rest_framework.serializers import ValidationError
 
 
 class RewardValidator:
+    """ Проверка на установку двух полей поощрения одновременно """
+
     def __init__(self, field1, field2):
         self.field1 = field1
         self.field2 = field2
@@ -18,6 +20,8 @@ class RewardValidator:
 
 
 class PleasantActionValidator:
+    """ Проверка связанной привычки на приятность """
+
     def __init__(self, field):
         self.field = field
 
@@ -31,6 +35,8 @@ class PleasantActionValidator:
 
 
 class TimeHabitValidator:
+    """ Проверка времени на выполнение привычки """
+
     def __init__(self, field):
         self.field = field
 
@@ -41,6 +47,8 @@ class TimeHabitValidator:
 
 
 class PleasantHabitValidator:
+    """ Проверка отсутствия поощрения у приятной привычки """
+
     def __init__(self, field):
         self.field = field
 
@@ -58,6 +66,8 @@ class PleasantHabitValidator:
 
 
 class RegularityValidator:
+    """ Проверка времени выполнения привычки """
+
     def __init__(self, field):
         self.field = field
 
