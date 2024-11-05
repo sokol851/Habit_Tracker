@@ -1,11 +1,10 @@
 from django.urls import path
 from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 
 from users.apps import UsersConfig
 from users.views import (UserCreateAPIView,
                          UserDestroyAPIView, UserListAPIView,
-                         UserRetrieveAPIView, UserUpdateAPIView)
+                         UserRetrieveAPIView, UserUpdateAPIView, MyTokenObtainPairView, MyTokenRefreshView)
 
 app_name = UsersConfig.name
 
@@ -16,6 +15,6 @@ urlpatterns = [
     path("users/<int:pk>/", UserRetrieveAPIView.as_view(), name="user-retrieve"),
     path("users/<int:pk>/destroy/", UserDestroyAPIView.as_view(), name="user-destroy"),
 
-    path("token/", TokenObtainPairView.as_view(permission_classes=[AllowAny]), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(permission_classes=[AllowAny]), name="token_refresh"),
+    path("token/", MyTokenObtainPairView.as_view(permission_classes=[AllowAny]), name="token_obtain_pair"),
+    path("token/refresh/", MyTokenRefreshView.as_view(permission_classes=[AllowAny]), name="token_refresh"),
 ]

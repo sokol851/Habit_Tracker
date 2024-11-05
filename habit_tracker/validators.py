@@ -4,6 +4,8 @@ from rest_framework.serializers import ValidationError
 
 
 class RewardValidator:
+    """ Проверка на установку двух полей поощрения одновременно """
+
     def __init__(self, field1, field2):
         self.field1 = field1
         self.field2 = field2
@@ -18,11 +20,13 @@ class RewardValidator:
 
 
 class PleasantActionValidator:
+    """ Проверка связанной привычки на приятность """
+
     def __init__(self, field):
         self.field = field
 
     def __call__(self, value):
-        tmp_val = dict(value).get(self.field)
+        tmp_val = value.get(self.field)
         if tmp_val:
             if not tmp_val.pleasant_sign:
                 raise ValidationError(
@@ -31,16 +35,20 @@ class PleasantActionValidator:
 
 
 class TimeHabitValidator:
+    """ Проверка времени на выполнение привычки """
+
     def __init__(self, field):
         self.field = field
 
     def __call__(self, value):
-        tmp_val = dict(value).get(self.field)
-        if tmp_val is not None and tmp_val > timedelta(seconds=120):
+        tmp_val = value.get(self.field)
+        if tmp_val and tmp_val > timedelta(seconds=120):
             raise ValidationError("Время на выполнение привычки не должно превышать 2 минут!")
 
 
 class PleasantHabitValidator:
+    """ Проверка отсутствия поощрения у приятной привычки """
+
     def __init__(self, field):
         self.field = field
 
@@ -58,10 +66,15 @@ class PleasantHabitValidator:
 
 
 class RegularityValidator:
+    """ Проверка времени выполнения привычки """
+
     def __init__(self, field):
         self.field = field
 
     def __call__(self, value):
         tmp_val = dict(value).get(self.field)
-        if len(tmp_val) < 1:
-            raise ValidationError("Нельзя выполнять привычку реже 1 раза в неделю!")
+        if tmp_val is not None:
+            if int(tmp_val) < 1:
+                raise ValidationError("Нельзя выполнять привычку реже 1 раза в неделю.")
+            if int(tmp_val) > 7:
+                raise ValidationError("Нельзя выполнять привычку чаще 7 раз в неделю.")

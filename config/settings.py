@@ -16,7 +16,6 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,8 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG') == "True"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [config("ALLOWED_HOSTS_1")]
 
 # Application definition
 
@@ -40,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_spectacular',
     'django_celery_beat',
-    'multiselectfield',
+    'corsheaders',
 
     "rest_framework",
     "django_filters",
@@ -53,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -80,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -88,9 +86,12 @@ DATABASES = {
     "default": {
         "ENGINE": config("BASE_ENGINE"),
         "NAME": BASE_DIR / config("BASE_NAME"),
+        "USER": BASE_DIR / config("USER"),
+        "HOST": BASE_DIR / config("HOST"),
+        "PORT": BASE_DIR / config("PORT"),
+        "PASSWORD": BASE_DIR / config("PASSWORD"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -110,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -121,7 +121,6 @@ TIME_ZONE = "Europe/Moscow"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -140,18 +139,18 @@ AUTH_USER_MODEL = "users.User"
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
-    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Habit tracker',
+    'DESCRIPTION': 'Habit tracker witch sending task in telegram.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
@@ -160,26 +159,23 @@ CELERY_BROKER_URL = config("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = config("CELERY_RESULT_BACKEND")
 CELERY_TIMEZONE = config("CELERY_TIMEZONE")
 CELERY_TASK_TRACK_STARTED = config('CELERY_TASK_TRACK_STARTED') == "True"
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
-    'check_last_login': {
-        'task': 'lms.tasks.check_last_login',
-        'schedule': timedelta(days=1),
-    },
+    'send_habit': {
+        'task': 'habit_tracker.tasks.send_habit',  # Путь к задаче
+        'schedule': timedelta(minutes=1), }  # Расписание выполнения задачи (например, каждые 10 минут)
 }
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
+CORS_ALLOWED_ORIGINS = [
+    config("CORS_ALLOWED_ORIGINS_1"),
+    config("CORS_ALLOWED_ORIGINS_2"),
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    config("CSRF_TRUSTED_ORIGINS_1"),
+    config("CSRF_TRUSTED_ORIGINS_2"),
+]
 
 TELEGRAM_URL = config('TELEGRAM_URL')
 TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
-
-
-# # Настройки почты
-# EMAIL_HOST = config('EMAIL_HOST')
-# EMAIL_PORT = config('EMAIL_PORT')
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_SSL = config('EMAIL_USE_SSL')
-# EMAIL_USE_TCL = config('EMAIL_USE_TCL')
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-#
-# SERVER_EMAIL = EMAIL_HOST_USER
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
