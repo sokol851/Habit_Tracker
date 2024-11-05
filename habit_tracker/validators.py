@@ -22,7 +22,7 @@ class PleasantActionValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_val = dict(value).get(self.field)
+        tmp_val = value.get(self.field)
         if tmp_val:
             if not tmp_val.pleasant_sign:
                 raise ValidationError(
@@ -35,8 +35,8 @@ class TimeHabitValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_val = dict(value).get(self.field)
-        if tmp_val is not None and tmp_val > timedelta(seconds=120):
+        tmp_val = value.get(self.field)
+        if tmp_val and tmp_val > timedelta(seconds=120):
             raise ValidationError("Время на выполнение привычки не должно превышать 2 минут!")
 
 

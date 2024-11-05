@@ -25,7 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG') == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [config("ALLOWED_HOSTS_1")]
 
 # Application definition
 
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_spectacular',
     'django_celery_beat',
-    'multiselectfield',
+    'corsheaders',
 
     "rest_framework",
     "django_filters",
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -143,7 +144,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
@@ -166,17 +167,15 @@ CELERY_BEAT_SCHEDULE = {
 }
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
+CORS_ALLOWED_ORIGINS = [
+    config("CORS_ALLOWED_ORIGINS_1"),
+    config("CORS_ALLOWED_ORIGINS_2"),
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    config("CSRF_TRUSTED_ORIGINS_1"),
+    config("CSRF_TRUSTED_ORIGINS_2"),
+]
+
 TELEGRAM_URL = config('TELEGRAM_URL')
 TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
-
-# # Настройки почты
-# EMAIL_HOST = config('EMAIL_HOST')
-# EMAIL_PORT = config('EMAIL_PORT')
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_SSL = config('EMAIL_USE_SSL')
-# EMAIL_USE_TCL = config('EMAIL_USE_TCL')
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-#
-# SERVER_EMAIL = EMAIL_HOST_USER
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

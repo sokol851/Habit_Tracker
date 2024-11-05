@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from rest_framework import fields
 from habit_tracker.models import Habit
 from habit_tracker.validators import RewardValidator, PleasantActionValidator, TimeHabitValidator, \
     PleasantHabitValidator, RegularityValidator
