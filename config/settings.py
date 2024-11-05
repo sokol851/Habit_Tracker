@@ -162,7 +162,7 @@ CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     'send_habit': {
         'task': 'habit_tracker.tasks.send_habit',  # Путь к задаче
-        'schedule': timedelta(seconds=15), }  # Расписание выполнения задачи (например, каждые 10 минут)
+        'schedule': timedelta(minutes=1), }  # Расписание выполнения задачи (например, каждые 10 минут)
 }
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
