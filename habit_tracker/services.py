@@ -11,6 +11,8 @@ def send_telegram_message(chat_id, message):
     }
 
     try:
-        requests.get(f"{TELEGRAM_URL}{TELEGRAM_TOKEN}/sendMessage", params=params, timeout=5)
+        requests.get(
+            f"{TELEGRAM_URL}{TELEGRAM_TOKEN}/sendMessage",
+            params=params, timeout=5)
     except requests.exceptions.Timeout:
         print("Истекло время ожидания ответа сервера Телеграм.")
