@@ -11,11 +11,12 @@ class RewardValidator:
         self.field2 = field2
 
     def __call__(self, value):
-        tmp_val1 = dict(value).get(self.field1)
-        tmp_val2 = dict(value).get(self.field2)
+        tmp_val1 = value.get(self.field1)
+        tmp_val2 = value.get(self.field2)
         if tmp_val1 and tmp_val2:
             raise ValidationError(
-                "Вы не можете заполнить 'Вознаграждение' и 'Приятную привычку' одновременно!"
+                "Вы не можете заполнить 'Вознаграждение'"
+                " и 'Приятную привычку' одновременно!"
             )
 
 
@@ -43,7 +44,8 @@ class TimeHabitValidator:
     def __call__(self, value):
         tmp_val = value.get(self.field)
         if tmp_val and tmp_val > timedelta(seconds=120):
-            raise ValidationError("Время на выполнение привычки не должно превышать 2 минут!")
+            raise ValidationError("Время на выполнение привычки "
+                                  "не должно превышать 2 минут!")
 
 
 class PleasantHabitValidator:
@@ -53,15 +55,13 @@ class PleasantHabitValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_val = dict(value).get(self.field)
+        tmp_val = value.get(self.field)
         if tmp_val:
-            values = dict(value)
-            if (
-                    values.get("reward") is not None
-                    or values.get("pleasant_action") is not None
-            ):
+            if (value.get("reward") is not None
+                    or value.get("pleasant_action") is not None):
                 raise ValidationError(
-                    "У приятной привычки не может быть вознаграждения или связанной привычки!"
+                    "У приятной привычки не может быть"
+                    " вознаграждения или связанной привычки!"
                 )
 
 
@@ -72,9 +72,11 @@ class RegularityValidator:
         self.field = field
 
     def __call__(self, value):
-        tmp_val = dict(value).get(self.field)
+        tmp_val = value.get(self.field)
         if tmp_val is not None:
             if int(tmp_val) < 1:
-                raise ValidationError("Нельзя выполнять привычку реже 1 раза в неделю.")
+                raise ValidationError("Нельзя выполнять привычку "
+                                      "реже 1 раза в неделю.")
             if int(tmp_val) > 7:
-                raise ValidationError("Нельзя выполнять привычку чаще 7 раз в неделю.")
+                raise ValidationError("Нельзя выполнять привычку "
+                                      "чаще 7 раз в неделю.")
